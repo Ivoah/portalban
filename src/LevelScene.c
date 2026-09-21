@@ -15,26 +15,26 @@ SDL_AppResult LevelScene_event(Scene* scene, SDL_Event* event) {
     LevelSceneState* lss = (LevelSceneState*)scene->state;
     
     int levelToLoad = -1;
-    Vec2* moveDir = NULL;
-    Vec2* shotDir = NULL;
+    Vec2 moveDir;
+    Vec2 shotDir;
 
     switch (Input_fromEvent(event, false)) {
-        case I_UP:          moveDir = &V_UP; break;
-        case I_DOWN:        moveDir = &V_DOWN; break;
-        case I_LEFT:        moveDir = &V_LEFT; break;
-        case I_RIGHT:       moveDir = &V_RIGHT; break;
-        case I_SHOOT_UP:    shotDir = &V_UP; break;
-        case I_SHOOT_DOWN:  shotDir = &V_DOWN; break;
-        case I_SHOOT_LEFT:  shotDir = &V_LEFT; break;
-        case I_SHOOT_RIGHT: shotDir = &V_RIGHT; break;
+        case I_UP:          moveDir = V_UP; break;
+        case I_DOWN:        moveDir = V_DOWN; break;
+        case I_LEFT:        moveDir = V_LEFT; break;
+        case I_RIGHT:       moveDir = V_RIGHT; break;
+        case I_SHOOT_UP:    shotDir = V_UP; break;
+        case I_SHOOT_DOWN:  shotDir = V_DOWN; break;
+        case I_SHOOT_LEFT:  shotDir = V_LEFT; break;
+        case I_SHOOT_RIGHT: shotDir = V_RIGHT; break;
         case I_BACK:        SDL_PushEvent(&(SDL_Event){.user.type = EVENT_POP_SCENE}); return SDL_APP_CONTINUE;
         case I_RESET:       Level_undo(lss->level, -1);
         case I_UNDO:        Level_undo(lss->level, 1);
         default: break;
     }
 
-    if (moveDir != NULL) Level_move(lss->level, *moveDir);
-    if (shotDir != NULL) Level_shoot(lss->level, *shotDir);
+    if (moveDir.x != 0 || moveDir.y != 0) Level_move(lss->level, moveDir);
+    if (shotDir.x != 0 || shotDir.y != 0) Level_shoot(lss->level, shotDir);
 
     // Advance level if won
     if (Level_isWon(lss->level)) {

@@ -16,14 +16,14 @@ typedef struct {
 
 SDL_AppResult MenuScene_event(Scene* scene, SDL_Event* event) {
     MenuSceneState* mss = (MenuSceneState*)scene->state;
-    Vec2* dir = &(Vec2){0, 0};
+    Vec2 dir;
     Scene* newScene;
 
     switch (Input_fromEvent(event, true)) {
-        case I_UP:    dir = &V_UP; break;
-        case I_DOWN:  dir = &V_DOWN; break;
-        case I_LEFT:  dir = &V_LEFT; break;
-        case I_RIGHT: dir = &V_RIGHT; break;
+        case I_UP:    dir = V_UP; break;
+        case I_DOWN:  dir = V_DOWN; break;
+        case I_LEFT:  dir = V_LEFT; break;
+        case I_RIGHT: dir = V_RIGHT; break;
         case I_BACK:  return SDL_APP_SUCCESS;
         case I_CONFIRM:
             switch (mss->menuItem) {
@@ -34,11 +34,11 @@ SDL_AppResult MenuScene_event(Scene* scene, SDL_Event* event) {
         default: break;
     }
 
-    mss->menuItem += dir->y;
+    mss->menuItem += dir.y;
     Util_wrap(&mss->menuItem, 4);
 
     if (mss->menuItem == 0) {
-        mss->level += dir->x;
+        mss->level += dir.x;
         Util_wrap(&mss->level, 10);
     }
 
