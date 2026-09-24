@@ -16,7 +16,7 @@ typedef struct {
 
 SDL_AppResult MenuScene_event(Scene* scene, SDL_Event* event) {
     MenuSceneState* mss = (MenuSceneState*)scene->state;
-    Vec2 dir;
+    Vec2 dir = {0, 0};
     Scene* newScene;
 
     switch (Input_fromEvent(event, true)) {
